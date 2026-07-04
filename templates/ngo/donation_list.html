@@ -1,0 +1,54 @@
+{% extends 'ngo/base.html' %}
+
+{% block content %}
+
+<h2>Donations</h2>
+
+{% if user.is_staff %}
+<a href="{% url 'donation_create' %}" class="btn btn-success">
+    Add New Donation
+</a>
+{% endif %}
+
+<br><br>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Donor</th>
+        <th>Project</th>
+        <th>Amount</th>
+        <th>Date</th>
+
+        {% if user.is_staff %}
+        <th>Actions</th>
+        {% endif %}
+    </tr>
+
+    {% for donation in donations %}
+    <tr>
+        <td>{{ donation.donor }}</td>
+        <td>{{ donation.project }}</td>
+        <td>{{ donation.amount }}</td>
+        <td>{{ donation.donation_date }}</td>
+
+        {% if user.is_staff %}
+        <td>
+            <a href="{% url 'donation_update' donation.id %}"
+               class="btn btn-warning btn-sm">Edit</a>
+
+            <a href="{% url 'donation_delete' donation.id %}"
+               class="btn btn-danger btn-sm">Delete</a>
+        </td>
+        {% endif %}
+    </tr>
+
+    {% empty %}
+    <tr>
+        <td colspan="{% if user.is_staff %}5{% else %}4{% endif %}">
+            No donations found.
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'ngo/base.html' %}
+
+{% block content %}
+<h2>Add / Edit Milestone</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Save Milestone</button>
+</form>
+
+<br>
+<a href="{% url 'milestone_list' %}">Back to Milestones</a>
+{% endblock %}

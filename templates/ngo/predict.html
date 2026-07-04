@@ -1,0 +1,54 @@
+{% extends 'ngo/base.html' %}
+
+{% block content %}
+
+<h2>Funding Prediction</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">
+        Predict
+    </button>
+</form>
+
+{% if prediction %}
+<hr>
+
+<h3>
+    Predicted Total Funds Raised:
+    <span style="color:green;">
+        {{ prediction|floatformat:0 }} RWF
+    </span>
+</h3>
+
+{% endif %}
+
+{% if metrics %}
+<hr>
+
+<h4>Model Performance Metrics</h4>
+
+<table class="table table-bordered" style="width:400px;">
+    <tr>
+        <th>Metric</th>
+        <th>Value</th>
+    </tr>
+
+    <tr>
+        <td>MSE</td>
+        <td>{{ metrics.mse|floatformat:2 }}</td>
+    </tr>
+
+    <tr>
+        <td>R² Score</td>
+        <td>{{ metrics.r2|floatformat:4 }}</td>
+    </tr>
+
+</table>
+
+{% endif %}
+
+{% endblock %}

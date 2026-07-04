@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Donor</title>
+</head>
+<body>
+    <h1>Add Donor</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Save Donor</button>
+    </form>
+
+    <a href="{% url 'donor_list' %}">Back to Donors</a>
+</body>
+</html>

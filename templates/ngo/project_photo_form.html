@@ -1,0 +1,15 @@
+{% extends 'ngo/base.html' %}
+
+{% block content %}
+<h2>Upload Project Photo</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Upload Photo</button>
+</form>
+
+<br>
+<a href="{% url 'project_list' %}">Back to Projects</a>
+{% endblock %}

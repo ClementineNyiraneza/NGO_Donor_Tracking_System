@@ -1,0 +1,133 @@
+{% extends 'ngo/base.html' %}
+
+{% block content %}
+
+<h2 class="fw-bold">Dashboard</h2>
+<p class="text-muted">Overview of NGO donors, projects, donations and milestones.</p>
+
+<div class="row g-4 mt-2">
+
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h6>Total Donors</h6>
+            <h1 class="text-primary">{{ total_donors }}</h1>
+            <p>Registered donors</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h6>Total Projects</h6>
+            <h1 class="text-success">{{ total_projects }}</h1>
+            <p>Active projects</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h6>Total Donations</h6>
+            <h1 class="text-info">{{ total_donations }}</h1>
+            <p>Total donation records</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h6>Total Funds Raised</h6>
+            <h1 class="text-warning">{{ total_funds }} RWF</h1>
+            <p>Total amount received</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h6>Completed Milestones</h6>
+            <h1 class="text-primary">{{ completed_milestones }}</h1>
+            <p>Finished project milestones</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h6>Pending Milestones</h6>
+            <h1 class="text-danger">{{ pending_milestones }}</h1>
+            <p>Milestones not yet completed</p>
+        </div>
+    </div>
+
+</div>
+
+<hr class="mt-5">
+
+<h3 class="fw-bold mt-4">Analytics Charts</h3>
+
+<div class="row g-4 mt-2">
+
+    <div class="col-md-8">
+        <div class="dashboard-card">
+            <h5>Funds Raised by Project</h5>
+            <canvas id="fundsChart"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h5>Milestone Status</h5>
+            <canvas id="milestoneChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{{ project_names|json_script:"project-names" }}
+{{ project_funds|json_script:"project-funds" }}
+
+<script>
+    const projectNames = JSON.parse(document.getElementById('project-names').textContent);
+    const projectFunds = JSON.parse(document.getElementById('project-funds').textContent);
+
+    const completedMilestones = {{ completed_milestones }};
+    const pendingMilestones = {{ pending_milestones }};
+
+    new Chart(document.getElementById('fundsChart'), {
+        type: 'bar',
+        data: {
+            labels: projectNames,
+            datasets: [{
+                label: 'Funds Raised (RWF)',
+                data: projectFunds,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('milestoneChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Completed', 'Pending'],
+            datasets: [{
+                data: [completedMilestones, pendingMilestones]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
+
+{% endblock %}

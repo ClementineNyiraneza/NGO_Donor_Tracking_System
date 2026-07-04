@@ -1,0 +1,15 @@
+{% extends 'ngo/base.html' %}
+
+{% block content %}
+<h2>Add / Edit Donation</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Save Donation</button>
+</form>
+
+<br>
+<a href="{% url 'donation_list' %}">Back to Donations</a>
+{% endblock %}

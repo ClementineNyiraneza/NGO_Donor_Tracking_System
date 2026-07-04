@@ -1,0 +1,61 @@
+{% extends 'ngo/base.html' %}
+
+{% block content %}
+
+<h2>Milestones</h2>
+
+{% if user.is_staff %}
+<a href="{% url 'milestone_create' %}" class="btn btn-success">
+    Add New Milestone
+</a>
+{% endif %}
+
+<br><br>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Project</th>
+        <th>Title</th>
+        <th>Completion Date</th>
+        <th>Status</th>
+
+        {% if user.is_staff %}
+        <th>Actions</th>
+        {% endif %}
+    </tr>
+
+    {% for milestone in milestones %}
+    <tr>
+        <td>{{ milestone.project }}</td>
+        <td>{{ milestone.title }}</td>
+        <td>{{ milestone.completion_date }}</td>
+
+        <td>
+            {% if milestone.completed %}
+                Completed
+            {% else %}
+                Pending
+            {% endif %}
+        </td>
+
+        {% if user.is_staff %}
+        <td>
+            <a href="{% url 'milestone_update' milestone.id %}"
+               class="btn btn-warning btn-sm">Edit</a>
+
+            <a href="{% url 'milestone_delete' milestone.id %}"
+               class="btn btn-danger btn-sm">Delete</a>
+        </td>
+        {% endif %}
+    </tr>
+
+    {% empty %}
+    <tr>
+        <td colspan="{% if user.is_staff %}5{% else %}4{% endif %}">
+            No milestones found.
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
