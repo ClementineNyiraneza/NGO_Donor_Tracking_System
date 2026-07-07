@@ -45,3 +45,7 @@ class ProjectPhoto(models.Model):
 
     def __str__(self):
         return self.project.name
+    
+class ProjectPhoto(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='project_photos/')

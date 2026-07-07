@@ -8,6 +8,7 @@ from django.db.models import Q, Sum
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import ProjectPhotoForm
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -272,6 +273,20 @@ def register(request):
         form = UserCreationForm()
 
     return render(request, 'ngo/register.html', {'form': form})
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+@login_required
+@user_passes_test(is_admin)
+def project_photo_upload(request):
+    if request.method == 'POST':
+        form = ProjectPhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('project_list')
+    else:
+        form = ProjectPhotoForm()
+
+    return render(request, 'ngo/project_photo_form.html', {'form': form})
 def predict_funding(request):
     prediction = None
     metrics = None

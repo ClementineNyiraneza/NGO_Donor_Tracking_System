@@ -1,0 +1,10 @@
+This project was developed using SQLite during development.
+
+The project structure supports migration to MySQL for production deployment.
+
+Database entities:
+- Donor
+- Project
+- Donation
+- Milestone
+- ProjectPhoto

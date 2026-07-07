@@ -37,6 +37,8 @@ class ProjectPhotoForm(forms.ModelForm):
         fields = ['project', 'image']
 
 
+
+
 class PredictionForm(forms.Form):
     target_amount = forms.FloatField()
     number_of_donors = forms.IntegerField()
